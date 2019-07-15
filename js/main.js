@@ -105,7 +105,7 @@ else
     splashScreenElement.getElementsByClassName("logo")[0].style.opacity = "1";
 }
 
-if ("serviceworker" in navigator) {
+if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("serviceworker.js").then(() => {
         console.log("Registered service worker");
     }).catch((err) => { 
