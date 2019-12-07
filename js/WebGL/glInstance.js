@@ -25,6 +25,8 @@ class GLInstance {
         // TODO: in future we should use .getSupportedExtensions and check against
         // that because we're throwing away extensions above (not good).
         this.extVAO = this.gl.getExtension("OES_vertex_array_object");
+
+        this.gl.enable(this.gl.CULL_FACE);
     }
 
     beginDraw() {

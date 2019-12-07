@@ -4,6 +4,11 @@ class RenderCard {
         this.gl = glInstance.gl;
         this.VAO = this.glInstance.extVAO.createVertexArrayOES();
         this.VBO = this.gl.createBuffer();
+        
+        this.texture = new Texture(glInstance, "/img/cards/blue_skip.png");
+
+        this.modelMatrix = mat4.create();
+        mat4.scale(this.modelMatrix, this.modelMatrix, vec3.fromValues(3, 4, 3));
 
         let vertices = new Float32Array([
             -0.5,   -0.5,   0.0, // 0
@@ -11,8 +16,8 @@ class RenderCard {
             0.5,    0.5,    0.0, // 3
 
             -0.5,   -0.5,   0.0, // 0
-            0.5,    -0.5,   0.0, // 2
-            0.5,    0.5,    0.0  // 3
+            0.5,    0.5,    0.0, // 3
+            0.5,    -0.5,   0.0  // 2
         ]);
 
         console.log(`VAO: ${this.VAO}, VBO: ${this.VBO}`);
@@ -42,9 +47,20 @@ class RenderCard {
         }
     }
 
-    draw() {
+    draw(camera) {
         if (!this.shader.ready) return;
         this.gl.useProgram(this.shader.shaderProgram);
+
+        this.texture.Bind();
+
+        // Apply matrices
+        this.shader.SetMat4Variable("viewMatrix", camera.viewMatrix);
+        this.shader.SetMat4Variable("projMatrix", camera.projMatrix);
+        this.shader.SetMat4Variable("modelMatrix", this.modelMatrix);
+
+        this.shader.SetIntVariable("mainTexture", 0);
+
+        // Draw!
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.VBO);
         this.gl.drawArrays(this.gl.TRIANGLES, 0, 6);
     }

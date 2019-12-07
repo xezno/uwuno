@@ -4,15 +4,15 @@ class Shader {
         this.gl = glInstance.gl;
 
         this.shaderProgram = this.gl.createProgram();
-        this.getShaderFromUrl(this.shaderProgram, this.gl.VERTEX_SHADER, vertShaderUrl).then(() => {
-            this.getShaderFromUrl(this.shaderProgram, this.gl.FRAGMENT_SHADER, fragShaderUrl).then(() => {
+        this.GetShaderFromUrl(this.shaderProgram, this.gl.VERTEX_SHADER, vertShaderUrl).then(() => {
+            this.GetShaderFromUrl(this.shaderProgram, this.gl.FRAGMENT_SHADER, fragShaderUrl).then(() => {
                 this.gl.linkProgram(this.shaderProgram);
                 this.ready = true;
             });
         });
     }
 
-    getShaderFromUrl(shaderProgram, shaderType, sourceUrl) {
+    GetShaderFromUrl(shaderProgram, shaderType, sourceUrl) {
         return new Promise((resolve, reject) => {
             fetch(sourceUrl).then((res) => res.text().then((text) => {
                 let shader = this.gl.createShader(shaderType);
@@ -32,5 +32,13 @@ class Shader {
                 reject(`Couldn't attach shader: ${err}`);
             });
         });
+    }
+
+    SetMat4Variable(variableName, variableValue) {
+        this.gl.uniformMatrix4fv(this.gl.getUniformLocation(this.shaderProgram, variableName), false, variableValue);
+    }
+
+    SetIntVariable(variableName, variableValue) {
+        this.gl.uniform1i(this.gl.getUniformLocation(this.shaderProgram, variableName), variableValue);
     }
 }
