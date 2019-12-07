@@ -4,6 +4,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="https://cdn.remixicon.com/releases/v1.3.1/remixicon.css" rel="stylesheet">
         <link rel="stylesheet" href="css/main.css">
+        <link rel="manifest" href="manifest.json">
         <title>uwuno</title>
     </head>
     <body>
@@ -88,7 +89,7 @@
                         </article>
                     </div>
                 </article>
-                <article id="menu-party-private">
+                <article id="menu-party">
                     <div id="flex-wrapper">
                         <article class="half-width player-list-container" id="private-player-list">
                             <span class="half-width-inner left">
@@ -102,7 +103,12 @@
                                 <li>its_notxezno</li>
                                 <li>lets race bwoi</li>
                             </ul>
-                            <h2>share this link with people what who that u want to play with:<br><code class="party-code" id="party-code">8FN322</code></h2>
+                            <h2>
+                                share this link with people what who that u want to play with:<br>
+                                <code class="party-code" id="party-code">8FN322</code>
+                                you are the host.<br>
+                                <a class="button" id="start-game-button">start game</a>
+                            </h2>
                         </article>
                     </div>
                 </article>
@@ -122,14 +128,25 @@
                         </article>
                     </div>
                 </article>
-            </article>
-            <article id="game">
-                <canvas id="game-canvas" width="1" height="1"></canvas>
+                <article id="game">
+                    <canvas id="game-canvas" width="1280" height="720"></canvas>
+                </article>
             </article>
         </main>
 
         <script src="js/notificationHandler.js"></script>
         <script src="js/options.js"></script>
+        <script src="js/GameCore/DiscardPile.js"></script>
+        <script src="js/GameCore/Card.js"></script>
+        <script src="js/GameCore/Deck.js"></script>
+        <script src="js/GameCore/Game.js"></script>
+        <script src="js/GameCore/Player.js"></script>
+
+        <script src="js/WebGL/gameFrontend.js"></script>
+        <script src="js/WebGL/renderCard.js"></script>
+        <script src="js/WebGL/glInstance.js"></script>
+        <script src="js/WebGL/shader.js"></script>
+
         <script src="js/main.js"></script>
 
         <script src="js/eventListeners.js"></script>

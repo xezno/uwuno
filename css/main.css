@@ -1,5 +1,5 @@
 @import url("https://fonts.googleapis.com/css?family=Nunito Sans:200,400,700,900&display=swap");
-@import url("https://fonts.googleapis.com/css?family=Poppins:700i,800i,600i&display=block&text=uwno");
+@import url("https://fonts.googleapis.com/css?family=Poppins:700i,800i,600i&display=block&text=uwnobeta()");
 :root {    
     --primary: #fe71dc;
     --main-background: #000;
@@ -23,6 +23,7 @@ body {
     margin: 0;
     padding: 0;
     height: calc(100vh - 65px);
+    user-select: none;
 }
 
 h1 {
@@ -48,8 +49,14 @@ main {
     color: var(--primary);
 }
 
-.logo::after {
+.logo::before {
     content: 'uwuno';
+}
+
+.logo::after {
+    margin-left: 4px;
+    content: '(beta)';
+    font-size: 0.5em;
 }
 
 #splash-screen {
@@ -164,6 +171,10 @@ main {
     pointer-events: all;
 }
 
+#notification-center .notification i {
+    margin-right: 8px;
+}
+
 .party-code {
     letter-spacing: 4px;
     text-align: center;
@@ -174,6 +185,7 @@ main {
     border-radius: 25px;
     margin-top: 4px;
     cursor: pointer;
+    user-select: all;
 }
 
 .half-width {
@@ -182,7 +194,7 @@ main {
     margin: 20px;
     border-radius: 25px;
     padding: 25px;
-    display: flex;
+    /* display: flex; */
     flex-wrap: wrap;
     justify-content: flex-start;
     align-items: center;

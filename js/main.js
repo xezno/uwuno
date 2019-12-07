@@ -23,17 +23,14 @@
 */
 
 let notificationHandler,
-    options;
+    options,
+    glInstance;
 
 function switchMenuScreen(targetScreenName) {
-    // This function fades the screen out to black over 150ms
-    // and then changes the currently active screen (DOM-based) 
-    // thru the use of some css and js magic.
-    // Essentially, all screens are set to have their display
-    // properties to "none", however this function will
-    // reset all displays to "none" once more and instead
-    // set the target div's (from variable 'screenName')
-    // display value to "block".
+    // This function fades the screen out to black over 150ms and then changes the currently active screen (DOM-based) 
+    // thru the use of some css and js magic. Essentially, all screens are set to have their display
+    // properties to "none", however this function will reset all displays to "none" once more and instead
+    // set the target div's (from variable 'screenName') display value to "block".
     // The screen then fades back from black over 150ms.
 
     // Ensure this matches menu element's transition speed!
@@ -105,6 +102,7 @@ else
     splashScreenElement.getElementsByClassName("logo")[0].style.opacity = "1";
 }
 
+// Setup & register the serviceworker
 if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("serviceworker.js").then(() => {
         console.log("Registered service worker");
@@ -112,3 +110,11 @@ if ("serviceWorker" in navigator) {
         console.error(`Could not register service worker: ${err}`);
     });
 }
+
+let gameFrontend = new GameFrontend(document.querySelector("canvas#game-canvas"));
+
+let draw = () => {
+    gameFrontend.draw();
+    requestAnimationFrame(draw);
+};
+requestAnimationFrame(draw);

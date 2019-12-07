@@ -1,0 +1,16 @@
+{
+    "short_name": "uwuno",
+    "name": "uwuno",
+    "start_url": "/?src=pwa",
+    "background_color": "#000000",
+    "display": "standalone",
+    "theme_color": "#000000",
+    "categories": ["entertainment", "games"],
+    "icons": [
+        {
+            "src": "/img/icons/192x.png",
+            "type": "image/png",
+            "sizes": "192x192"
+        }
+    ]
+}

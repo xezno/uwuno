@@ -55,27 +55,35 @@ let eventListeners = [
     {
         "name": "private-game-host",
         "event": "click",
-        "handler": () => switchMenuScreen("menu-party-private")
+        "handler": () => switchMenuScreen("menu-party")
+    },
+    {
+        "name": "start-game-button",
+        "event": "click",
+        "handler": () => switchMenuScreen("game")
     },
     {
         "name": "party-join-button",
         "event": "click",
-        "handler": () => notificationHandler.PushNotification("Joining", "Joining party, please wait...", "key")
-    },
+        "handler": _ => { 
+            notificationHandler.PushNotification("Joining", "Joining party, please wait...", "key");
+            switchMenuScreen("menu-party");
+            notificationHandler.PushNotification("Joined!", "Joined party successfully.", "key");
+        }
+    }
 ];
 
-for (let eventListener of eventListeners)
-{
-    AddListenerToElement(eventListener.name, eventListener.event, eventListener.handler);
-}
 
 window.addEventListener("load", function(e) {
     console.log("Loaded page");
 
-    // Initialize notification.js
-    notificationHandler = new NotificationHandler();
+    // Register event listeners
+    for (let eventListener of eventListeners)
+    {
+        AddListenerToElement(eventListener.name, eventListener.event, eventListener.handler);
+    }
 
-    // Initialize options.js
+    notificationHandler = new NotificationHandler();
     options = new Options();
 
     // Hide all menu screens
@@ -88,6 +96,9 @@ window.addEventListener("load", function(e) {
     // Hide the splash screen
     let splashScreenElement = document.getElementById("splash-screen");
     splashScreenElement.style.opacity = "0";
-    // Start off with the "select game publicity" screen
-    switchMenuScreen("menu-game-publicity");
+
+    // // Start off with the initial "select game type" screen
+    // switchMenuScreen("menu-game-publicity");
+
+    switchMenuScreen("game");
 });

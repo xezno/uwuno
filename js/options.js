@@ -24,7 +24,7 @@
 
 class Options {
     constructor() {
-        this.optionMap = this.DefaultValues;
+        this.optionMap = this.defaultValues;
         // Apply all localstorage values afterwards (only uses
         // default values if necessary)
         this.localStorage = window.localStorage;
@@ -36,7 +36,7 @@ class Options {
         }
     }
 
-    get DefaultValues() {
+    get defaultValues() {
         // Return the default values for all options.
         return {
             "darkMode": true,
