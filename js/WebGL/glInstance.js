@@ -29,12 +29,12 @@ class GLInstance {
         this.gl.enable(this.gl.CULL_FACE);
     }
 
-    beginDraw() {
+    BeginDraw() {
         this.gl.clearColor(1.0, 0.0, 1.0, 1.0);
         this.gl.clear(this.gl.DEPTH_BUFFER_BIT | this.gl.COLOR_BUFFER_BIT);
     }
 
-    endDraw() {
+    EndDraw() {
         // TODO: gl.finish, inputs, etc.
         this.gl.finish();
     }

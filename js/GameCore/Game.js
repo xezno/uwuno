@@ -19,6 +19,10 @@ class Game {
         console.log(this.players);
     }
 
+    get discardPileTop() {
+        return this.discardPile.GetLastCard();
+    }
+
     // Run through one 'turn' (current player)
     Run() {
         // Get the current player's move (random valid card)
@@ -28,8 +32,12 @@ class Game {
         // Check if we can play any of the cards in currentPlayer's deck
         // (if we can: play it)
         let cardChosen = -1;
-        let discardPileTop = this.discardPile.GetLastCard();
-        console.log(`Discard pile top: ${discardPileTop.toString()}`);
+        if (!this.discardPileTop) 
+        {
+            console.error("how");
+            console.dir(this.discardPile);
+        }
+        console.log(`Discard pile top: ${this.discardPileTop.toString()}`);
         console.log(`Player hand: ${currentPlayer.hand}`);
         for (let i in currentPlayer.hand)
         {
@@ -38,9 +46,8 @@ class Game {
             // a: the cards on the top of discard pile and the card in the player's hand
             //    share a common property (type or color); or
             // b: the card is 'wild'.
-            if (
-                discardPileTop.cardType == card.cardType ||
-                discardPileTop.cardColor == card.cardColor || 
+            if (this.discardPileTop.cardType == card.cardType ||
+                this.discardPileTop.cardColor == card.cardColor || 
                 card.cardType == "wild")
             {
                 // The card is valid! Play it

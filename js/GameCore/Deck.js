@@ -1,6 +1,20 @@
 class Deck {
     constructor() {
-        this.cardList = [];
+        this.cardList = this.GetAllCards();
+
+        for (let cardIndex in this.cardList)
+        {
+            let randomIndex = Math.floor(Math.random() * this.cardList.length);
+            let temp = this.cardList[randomIndex];
+            this.cardList[randomIndex] = this.cardList[cardIndex];
+            this.cardList[cardIndex] = temp;
+        }
+        
+        console.dir(this.cardList);
+    }
+
+    GetAllCards() {
+        let cardList = [];
         let cardTypes = [ "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "picker", "reverse", "skip" ];
         let cardColors = [ "blue", "green", "yellow", "red" ];
         // alright buckle up
@@ -21,19 +35,19 @@ class Deck {
                 if (cardType != "0")
                     cardCount = 2;
                 for (var i = 0; i < cardCount; ++i)
-                    this.cardList.push(new Card(false, cardType, cardColor));
+                    cardList.push(new Card(false, cardType, cardColor));
             }
         }
 
         // ok so we handled all of the non-wild cards, lets handle the wild ones
-        let wildTypes = ["color_changer", "pick_four"]
-        for (let cardType in wildTypes)
+        let wildTypes = ["color_changer", "pick_four"];
+        for (let cardType of wildTypes)
         {
             for (var i = 0; i < 2; ++i)
-                this.cardList.push(new Card(false, cardType, "wild"));
+                cardList.push(new Card(false, cardType, "wild"));
         }
-        this.cardList.sort((a, b) => { return Math.floor((Math.random() * 2) - 1); });
-        console.log(`There are ${this.cardList.length} cards in the deck`);
+
+        return cardList;
     }
 
     DrawCard() {

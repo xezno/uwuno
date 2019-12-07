@@ -14,9 +14,11 @@ class Player {
 
     PlayCard(index)
     {
-        if (index < this.hand.length && index > 0)
+        if (index < this.hand.length && index > -1)
         {
             return this.hand.splice(index, 1)[0];
         }
+        console.log(`${index} is not a valid index for hand of length ${this.hand.length}`);
+        console.dir(this.hand);
     }
 }

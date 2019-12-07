@@ -9,6 +9,8 @@ class Texture {
         
         this.image = new Image();
 
+        // We want to use these in the image load function, so we have
+        // to declare them locally too.
         const gl = this.gl;
         const image = this.image;
         const IsPOT = this.IsPOT;
@@ -17,19 +19,14 @@ class Texture {
         this.image.onload = function() {
             gl.bindTexture(gl.TEXTURE_2D, glTexture);
             gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
-            console.log(`Loading texture ${image.width}x${image.height}...`)
 
             if (IsPOT(image.width) && IsPOT(image.height)) {
-                console.log("not pot");
                 gl.generateMipmap(gl.TEXTURE_2D);
             } else {
-                console.log("pot");
                 gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
                 gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
                 gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
             }
-
-            console.log(`Loaded texture ${image.width}x${image.height}`)
         }
         this.image.src = textureUrl;
     }

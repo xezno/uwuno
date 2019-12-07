@@ -114,7 +114,7 @@ if ("serviceWorker" in navigator) {
 let gameFrontend = new GameFrontend(document.querySelector("canvas#game-canvas"));
 
 let draw = () => {
-    gameFrontend.draw();
+    gameFrontend.Draw();
     requestAnimationFrame(draw);
 };
 requestAnimationFrame(draw);
