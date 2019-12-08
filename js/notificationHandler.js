@@ -35,7 +35,6 @@ class NotificationHandler {
     PurgeNotification(id) {
         clearTimeout(this.notificationStack[id]);
         return new Promise((resolve, reject) => {
-            console.log(`purging ${id}`);
             let notification = document.getElementById(`notification-${id}`);
 
             if (!notification)
@@ -81,7 +80,6 @@ class NotificationHandler {
 
         // Wait until the user has read the notification
         this.notificationStack.push(setTimeout(() => {
-            console.log(`Notification ${notificationID} expired; removing`);
             this.PurgeNotification(notificationID).then(function() {}).catch(function(error) {
                 console.error(`Unable to purge expired notification: ${error}`);
             });

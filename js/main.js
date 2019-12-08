@@ -89,16 +89,14 @@ function getBase(u) {
     return result[0];
 }
 
-// HACK: Remove the splash screen logo if we've come from the uwuno site
+// HACK: Remove ("hide") the splash screen logo if we've come from the uwuno site
 let splashScreenElement = document.getElementById("splash-screen");
 if (getBase(window.location.href) == getBase(document.referrer))
 {
-    console.log(`a ${getBase(window.location.href)} == ${getBase(document.referrer)}`);
     splashScreenElement.removeChild(splashScreenElement.getElementsByClassName("logo")[0]);
 }
 else
 {
-    console.log(`b ${getBase(window.location.href)} == ${getBase(document.referrer)}`);
     splashScreenElement.getElementsByClassName("logo")[0].style.opacity = "1";
 }
 

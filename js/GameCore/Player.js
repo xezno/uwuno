@@ -18,7 +18,7 @@ class Player {
         {
             return this.hand.splice(index, 1)[0];
         }
-        console.log(`${index} is not a valid index for hand of length ${this.hand.length}`);
+        console.error(`${index} is not a valid index for hand of length ${this.hand.length}`);
         console.dir(this.hand);
     }
 }

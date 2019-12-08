@@ -1,9 +1,10 @@
 class Game {
     constructor() {
-        this.deck = new Deck();
+        this.deck = new Deck(); 
         this.players = [];
         this.playerTurn = 0;
         this.playerOrderReversed = false;
+        this.gameRunning = true;
         for (let i = 0; i < 4; ++i)
         {
             let tempPlayer = new Player(`xezno ${i}`);
@@ -16,7 +17,7 @@ class Game {
 
         this.discardPile = new DiscardPile(this.deck.DrawCard());
 
-        console.log(this.players);
+        console.dir(this.players);
     }
 
     get discardPileTop() {
@@ -31,7 +32,7 @@ class Game {
         
         // Check if we can play any of the cards in currentPlayer's deck
         // (if we can: play it)
-        let cardChosen = -1;
+        let cardChosen = -1; // Set as -1 so that we know whether the player had a valid card or not
         if (!this.discardPileTop) 
         {
             console.error("how");
@@ -45,10 +46,12 @@ class Game {
             // We can play a card if:
             // a: the cards on the top of discard pile and the card in the player's hand
             //    share a common property (type or color); or
-            // b: the card is 'wild'.
+            // b: either of the cards are 'wild' (for now).
+            console.log(`${card.cardType} vs ${this.discardPileTop.cardType}`);
             if (this.discardPileTop.cardType == card.cardType ||
                 this.discardPileTop.cardColor == card.cardColor || 
-                card.cardType == "wild")
+                card.cardColor == "wild" ||
+                this.discardPileTop.cardColor == "wild")
             {
                 // The card is valid! Play it
                 console.log(`Playing card ${card.toString()} (${i})`);
@@ -67,9 +70,21 @@ class Game {
             console.log(`Player ${currentPlayer.name} had no valid cards to play; drawing from deck`);
             currentPlayer.AddToHand(this.deck.DrawCard());
         }
-        // Check for win condition
+
+        this.CheckForWinCondition();
+
         this.AdvancePlayerTurn();
     }
+
+    CheckForWinCondition() {
+        for (let player of this.players) {
+            if (player.hand.length < 1) {
+                // Player has won the game.
+                alert("Win condition reached!");
+            }
+        }
+    }
+
 
     GetCurrentPlayerMove() {
         return this.players[this.playerTurn];
@@ -82,8 +97,12 @@ class Game {
             this.playerTurn++;
 
         if (this.playerTurn < 0) 
+        {
             this.playerTurn = this.players.length - 1;
+        }
         else if (this.playerTurn >= this.players.length) 
+        {
             this.playerTurn = 0;
+        }
     }
 }

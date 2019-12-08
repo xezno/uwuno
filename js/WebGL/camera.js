@@ -1,15 +1,17 @@
 class Camera {
     constructor() {
-        
         this.projMatrix = mat4.create();
 
+        // this.position = vec3.fromValues(2.5, 2, -4);
         this.position = vec3.fromValues(0, 0, -5);
         this.up = vec3.fromValues(0, 1, 0);
         this.forward = vec3.fromValues(0, 0, 1);
 
-        this.degToRad = 0.0174533;
+        var ratio = 1280/720;
 
-        mat4.perspective(this.projMatrix, 90.0 * this.degToRad, 1280/720, 0.001, 50.0);
+        // mat4.perspective(this.projMatrix, 90.0 * DEG_TO_RAD, 1280/720, 0.001, 50.0);
+
+        mat4.ortho(this.projMatrix, -5.0 * ratio, 5.0 * ratio, -5.0, 5.0, 0.001, 10.0);
     }
 
     get viewMatrix() {
@@ -22,22 +24,16 @@ class Camera {
 
     Update(keysPressed) {
         if (keysPressed["w"]) {
-            this.position[2] += 0.1;
+            this.position[1] += 0.1;
         }
         if (keysPressed["s"]) {
-            this.position[2] -= 0.1;
+            this.position[1] -= 0.1;
         }
         if (keysPressed["a"]) {
             this.position[0] += 0.1;
         }
         if (keysPressed["d"]) {
             this.position[0] -= 0.1;
-        }
-        if (keysPressed["q"]) {
-            this.position[1] -= 0.1;
-        }
-        if (keysPressed["e"]) {
-            this.position[1] += 0.1;
         }
     }
 }

@@ -9,10 +9,10 @@ class GameFrontend {
         this.game = new Game();
         this.glInstance = new GLInstance(canvas);
 
+        this.handRenderer = new HandRenderer(this.glInstance, this.game, this);
         this.mainCardShader = new Shader(this.glInstance, "/shaders/frag.glsl", "/shaders/vert.glsl");
 
         this.keysPressed = [];
-        this.cardList = [];
         window.addEventListener("keydown", (e) => {
             this.keysPressed[e.key] = true;
             // console.log(`${e.key} down`);
@@ -29,7 +29,9 @@ class GameFrontend {
         });
 
         // Compile a list of textures to load
-        let texturesToLoad = [];
+        let texturesToLoad = [
+            "/img/arrow-left.png"
+        ];
         // We want every card in the deck to have its texture loaded before it's
         // used for ultra-smooth gameplay.
         for (let card of this.game.deck.GetAllCards())
@@ -43,36 +45,15 @@ class GameFrontend {
         this.Run();
     }
 
-    UpdateCards() {
-        this.cardList = [];
-        var totalCardIndex = 0;
-        for (var playerIndex in this.game.players)
-        {
-            var playerCardIndex = 0;
-            for (var card of this.game.players[playerIndex].hand)
-            {
-                this.cardList.push(new CardRenderer(this.glInstance, `${card.cardColor}_${card.cardType}`));
-                this.cardList[totalCardIndex].position = vec3.fromValues(playerCardIndex, playerIndex, 0);
-                playerCardIndex++;
-                totalCardIndex++;
-            }
-        }
-        console.dir(this.game.discardPileTop);
-        var discardPileCard = new CardRenderer(this.glInstance, `${this.game.discardPileTop.cardColor}_${this.game.discardPileTop.cardType}`);
-        discardPileCard.position = vec3.fromValues(-2, 0, 0);
-        this.cardList.push(discardPileCard);
-    }
-
     Run() {
         this.game.Run();
-        this.UpdateCards();
+        this.handRenderer.UpdateCards();
     }
 
     Draw() {
         this.camera.Update(this.keysPressed);
         this.glInstance.BeginDraw();
-        for (let card of this.cardList)
-            card.Draw(this);
+        this.handRenderer.Draw();
         this.glInstance.EndDraw();
     }
 }

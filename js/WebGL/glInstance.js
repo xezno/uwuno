@@ -1,6 +1,5 @@
 class GLInstance {
     constructor(canvas) {
-        console.log("new gl instance");
         this.gl = canvas.getContext("webgl");
         // The only devices I currently test on have support for at least these extensions
         // (and some more that I won't use).  Considering that my worst device is from
@@ -27,10 +26,12 @@ class GLInstance {
         this.extVAO = this.gl.getExtension("OES_vertex_array_object");
 
         this.gl.enable(this.gl.CULL_FACE);
+        this.gl.enable(this.gl.BLEND);
+        this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
     }
 
     BeginDraw() {
-        this.gl.clearColor(1.0, 0.0, 1.0, 1.0);
+        this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
         this.gl.clear(this.gl.DEPTH_BUFFER_BIT | this.gl.COLOR_BUFFER_BIT);
     }
 

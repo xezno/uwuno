@@ -75,8 +75,6 @@ let eventListeners = [
 
 
 window.addEventListener("load", function(e) {
-    console.log("Loaded page");
-
     // Register event listeners
     for (let eventListener of eventListeners)
     {
