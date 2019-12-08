@@ -13,6 +13,7 @@ class GameFrontend {
         this.mainCardShader = new Shader(this.glInstance, "/shaders/frag.glsl", "/shaders/vert.glsl");
 
         this.keysPressed = [];
+        
         window.addEventListener("keydown", (e) => {
             this.keysPressed[e.key] = true;
             // console.log(`${e.key} down`);
@@ -22,7 +23,20 @@ class GameFrontend {
             // console.log(`${e.key} up`);
         });
         canvas.addEventListener("mousemove", (e) => {
-            // console.log(`${e.x - canvas.offsetTop}, ${e.y - canvas.offsetLeft}`);
+            let posX = e.x - canvas.offsetLeft;
+            let posY = e.y - canvas.offsetTop;
+
+            // There was probably an easier way to do this (thru matrices) but I don't care
+            let position = [posX / canvas.offsetWidth, posY / canvas.offsetHeight];
+            position[0] *= this.camera.posLeft * this.camera.ratio * 2;
+            position[1] *= this.camera.posTop * 2;
+            position[0] -= this.camera.posLeft * this.camera.ratio;
+            position[1] -= this.camera.posTop;
+            position[0] = position[0];
+            position[1] = -position[1];
+            this.mousePosWorld = position;
+
+            this.handRenderer.MouseMoved(position);
         });
         canvas.addEventListener("mousedown", (e) => {
             this.Run();

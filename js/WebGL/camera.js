@@ -7,11 +7,16 @@ class Camera {
         this.up = vec3.fromValues(0, 1, 0);
         this.forward = vec3.fromValues(0, 0, 1);
 
-        var ratio = 1280/720;
+        this.posTop = 5.0;
+        this.posBottom = -5.0;
+        this.posLeft = -5.0;
+        this.posRight = 5.0;
+
+        this.ratio = 1280/720;
 
         // mat4.perspective(this.projMatrix, 90.0 * DEG_TO_RAD, 1280/720, 0.001, 50.0);
 
-        mat4.ortho(this.projMatrix, -5.0 * ratio, 5.0 * ratio, -5.0, 5.0, 0.001, 10.0);
+        mat4.ortho(this.projMatrix, -5.0 * this.ratio, 5.0 * this.ratio, -5.0, 5.0, 0.001, 10.0);
     }
 
     get viewMatrix() {

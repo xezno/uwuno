@@ -47,12 +47,20 @@ class HandRenderer {
             this.renderList.push(discardPileCardRenderer);
             discardPileIndex++;
         }
-
         this.renderList.push(new ArrowRenderer(this.glInstance, this.game.playerTurn - 2));
     }
 
+    MouseMoved(mousePosWorld) {
+        this.mousePosWorld = mousePosWorld;
+        for (let obj of this.renderList)
+        {
+            if (obj.MouseMoved)
+                obj.MouseMoved(mousePosWorld);
+        }
+    }
+
     Draw() {
-        for (let card of this.renderList)
-            card.Draw(this.gameFrontend);
+        for (let obj of this.renderList)
+            obj.Draw(this.gameFrontend);
     }
 }
