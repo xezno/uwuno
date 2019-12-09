@@ -16,7 +16,7 @@ class HandRenderer {
             var playerCardIndex = 0;
             for (var card of this.game.players[playerIndex].hand)
             {
-                this.renderList.push(new CardRenderer(this.glInstance, `${card.cardColor}_${card.cardType}`));
+                this.renderList.push(new CardRenderer(this.glInstance, card));
                 if (playerIndex % 2 == 0) {
                     var offset = (playerIndex % 4 == 0) ? -3 : 3;
                     this.renderList[totalCardIndex].position = vec3.fromValues(playerCardIndex - 3, offset * this.renderList[totalCardIndex].scale[1], 0);
@@ -29,11 +29,14 @@ class HandRenderer {
                 totalCardIndex++;
             }
         }
+        this.renderList.push(new ArrowRenderer(this.glInstance, this.game.playerTurn - 2));
+    }
 
+    UpdateDiscardPile() {
         var discardPileIndex = 0;
         for (var discardPileCard of this.game.discardPile.cardList)
         {
-            var discardPileCardRenderer = new CardRenderer(this.glInstance, `${discardPileCard.cardColor}_${discardPileCard.cardType}`);
+            var discardPileCardRenderer = new CardRenderer(this.glInstance, discardPileCard);
             var noiseX = Math.sin(discardPileIndex);
             var noiseY = Math.cos(discardPileIndex * 3);
             noiseX = (noiseY * 2) - (noiseX);
@@ -47,7 +50,6 @@ class HandRenderer {
             this.renderList.push(discardPileCardRenderer);
             discardPileIndex++;
         }
-        this.renderList.push(new ArrowRenderer(this.glInstance, this.game.playerTurn - 2));
     }
 
     MouseMoved(mousePosWorld) {
@@ -56,6 +58,14 @@ class HandRenderer {
         {
             if (obj.MouseMoved)
                 obj.MouseMoved(mousePosWorld);
+        }
+    }
+
+    MouseClicked(gameFrontend) {
+        for (let obj of this.renderList)
+        {
+            if (obj.MouseClicked)
+                obj.MouseClicked(gameFrontend, this);
         }
     }
 

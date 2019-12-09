@@ -35,7 +35,41 @@ class ObjectRenderer {
         return mMatrix;
     }
 
+    Curve(t) {
+        return (Math.sin(t * (Math.PI / 2))); // lazy "ease-in" style using sine
+    }
+
+    Lerp(a, b, t) {
+        t = this.Curve(t);
+        return (1 - t) * a + t * b;
+    }
+
+    LerpPos(a, b, t) {
+        return [this.Lerp(a[0], b[0], t), 
+                this.Lerp(a[1], b[1], t), 
+                this.Lerp(a[2], b[2], t)];
+    }
+
     Draw(gameFrontend) {
+        if (this.animation) {
+            // TODO: create update function so that this isn't framerate-dependant
+            if (!this.animation.totalFrames) 
+                this.animation.totalFrames = 0;
+
+            if (this.animation.from && this.animation.to)
+                this.position = this.LerpPos(this.animation.from, this.animation.to, this.animation.totalFrames / this.animation.duration);
+
+            this.animation.totalFrames++;
+
+            if (this.animation.totalFrames > this.animation.duration)
+            {
+                if (this.animation.onFinish)
+                    this.animation.onFinish();
+                this.animation = undefined;
+            }
+        }
+
+
         if (!gameFrontend.mainCardShader.ready) return;
         this.gl.useProgram(gameFrontend.mainCardShader.shaderProgram);
 
