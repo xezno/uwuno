@@ -8,6 +8,27 @@ class HandRenderer {
         this.gameFrontend = gameFrontend;
     }
 
+    CalcDiscardRotation(index) {
+        if (index == undefined) 
+            index = this.game.discardPile.cardList.length;
+
+        let noiseOffset = this.CalcDiscardOffset(index);
+        let noiseTotal = noiseOffset[0] * noiseOffset[1];
+        return ((index + noiseTotal) * 20) % 360;
+    }
+
+    CalcDiscardOffset(index) {
+        if (index == undefined) 
+            index = this.game.discardPile.cardList.length;
+        let noiseX = Math.sin(index);
+        let noiseY = Math.cos(index * 3);
+        noiseX = (noiseY * 2) - (noiseX);
+        noiseY = (noiseY * 2) - (noiseY);
+        noiseX *= 0.1;
+        noiseY *= 0.1;
+        return [noiseX, noiseY, -index / 10];
+    }
+
     UpdateCards() {
         this.renderList = [];
         var totalCardIndex = 0;
@@ -16,7 +37,7 @@ class HandRenderer {
             var playerCardIndex = 0;
             for (var card of this.game.players[playerIndex].hand)
             {
-                this.renderList.push(new CardRenderer(this.glInstance, card));
+                this.renderList.push(new SceneObject(this.glInstance, card));
                 if (playerIndex % 2 == 0) {
                     var offset = (playerIndex % 4 == 0) ? -3 : 3;
                     this.renderList[totalCardIndex].position = vec3.fromValues(playerCardIndex - 3, offset * this.renderList[totalCardIndex].scale[1], 0);
@@ -33,21 +54,14 @@ class HandRenderer {
     }
 
     UpdateDiscardPile() {
-        var discardPileIndex = 0;
-        for (var discardPileCard of this.game.discardPile.cardList)
+        let discardPileIndex = 0;
+        for (let discardPileCard of this.game.discardPile.cardList)
         {
-            var discardPileCardRenderer = new CardRenderer(this.glInstance, discardPileCard);
-            var noiseX = Math.sin(discardPileIndex);
-            var noiseY = Math.cos(discardPileIndex * 3);
-            noiseX = (noiseY * 2) - (noiseX);
-            noiseY = (noiseY * 2) - (noiseY);
-            noiseX *= 0.1;
-            noiseY *= 0.1;
+            var discardPileSceneObject = new SceneObject(this.glInstance, discardPileCard);
 
-            var noiseTotal = noiseX * noiseY;
-            discardPileCardRenderer.position = vec3.fromValues(noiseX, noiseY, 0);
-            discardPileCardRenderer.rotation = (discardPileIndex + noiseTotal) * 20;
-            this.renderList.push(discardPileCardRenderer);
+            discardPileSceneObject.position = this.CalcDiscardOffset(discardPileIndex);
+            discardPileSceneObject.rotation = this.CalcDiscardRotation(discardPileIndex);
+            this.renderList.push(discardPileSceneObject);
             discardPileIndex++;
         }
     }
@@ -65,7 +79,7 @@ class HandRenderer {
         for (let obj of this.renderList)
         {
             if (obj.MouseClicked)
-                obj.MouseClicked(gameFrontend, this);
+                obj.MouseClicked(gameFrontend.game, this);
         }
     }
 

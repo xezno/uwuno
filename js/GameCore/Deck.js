@@ -35,7 +35,7 @@ class Deck {
                 if (cardType != "0")
                     cardCount = 2;
                 for (var i = 0; i < cardCount; ++i)
-                    cardList.push(new Card(false, cardType, cardColor));
+                    cardList.push(new Card(true, cardType, cardColor));
             }
         }
 
@@ -44,7 +44,7 @@ class Deck {
         for (let cardType of wildTypes)
         {
             for (var i = 0; i < 2; ++i)
-                cardList.push(new Card(false, cardType, "wild"));
+                cardList.push(new Card(true, cardType, "wild"));
         }
 
         return cardList;
