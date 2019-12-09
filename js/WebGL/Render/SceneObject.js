@@ -52,7 +52,7 @@ class SceneObject {
 
     Draw(gameFrontend) {
         if (this.animation) {
-            // TODO: create update function so that this isn't framerate-dependant
+            // TODO: create update function so that this isn't framerate-dependent
             if (!this.animation.totalFrames) 
                 this.animation.totalFrames = 0;
 
@@ -69,7 +69,6 @@ class SceneObject {
 
             if (this.animation.totalFrames > this.animation.duration)
             {
-                console.log(this.animation);
                 if (this.animation.onFinish)
                     this.animation.onFinish();
                 this.animation = {};

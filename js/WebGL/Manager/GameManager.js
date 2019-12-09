@@ -1,4 +1,4 @@
-class GameFrontend {
+class GameManager {
     constructor(canvas) {
         // Here, all of the magic happens!
         // A GameCore.Game instance is created, and the appropriate render
@@ -10,7 +10,7 @@ class GameFrontend {
         this.game = new Game();
         this.glInstance = new GLInstance(canvas);
         this.canvas = canvas;
-        this.handRenderer = new HandRenderer(this.glInstance, this.game, this);
+        this.handRenderer = new HandManager(this.glInstance, this.game, this);
         this.mainCardShader = new Shader(this.glInstance, "/shaders/frag.glsl", "/shaders/vert.glsl");
         this.keysPressed = [];
 

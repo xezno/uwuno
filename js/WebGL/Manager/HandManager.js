@@ -1,4 +1,4 @@
-class HandRenderer {
+class HandManager {
     constructor(glInstance, game, gameFrontend) {
         this.glInstance = glInstance;
         this.gl = glInstance.gl;
@@ -37,30 +37,38 @@ class HandRenderer {
             var playerCardIndex = 0;
             for (var card of this.game.players[playerIndex].hand)
             {
-                this.renderList.push(new SceneObject(this.glInstance, card));
+                if (playerIndex == 0 && card.isFlipped) 
+                    card.Flip();
+                let cardRenderer = new CardRenderer(this.glInstance, card, true);
                 if (playerIndex % 2 == 0) {
                     var offset = (playerIndex % 4 == 0) ? -3 : 3;
-                    this.renderList[totalCardIndex].position = vec3.fromValues(playerCardIndex - 3, offset * this.renderList[totalCardIndex].scale[1], 0);
+                    cardRenderer.position = vec3.fromValues(playerCardIndex - 3, offset * CARD_SCALE_MULTIPLIER[1], 0);
                 } else {
                     var offset = (playerIndex % 3 == 0) ? -8 : 8;
-                    console.log(offset);
-                    this.renderList[totalCardIndex].position = vec3.fromValues(offset, playerCardIndex * this.renderList[totalCardIndex].scale[1] - 4, 0);
+                    cardRenderer.position = vec3.fromValues(offset, playerCardIndex * CARD_SCALE_MULTIPLIER[1] - 4, 0);
                 }
+                cardRenderer.rotation = (playerCardIndex - (this.game.players[playerIndex].hand.length / 2)) * -10;
+                this.renderList.push(cardRenderer);
                 playerCardIndex++;
                 totalCardIndex++;
             }
         }
         this.renderList.push(new ArrowRenderer(this.glInstance, this.game.playerTurn - 2));
+
+        this.UpdateDiscardPile();
     }
 
     UpdateDiscardPile() {
         let discardPileIndex = 0;
         for (let discardPileCard of this.game.discardPile.cardList)
         {
-            var discardPileSceneObject = new SceneObject(this.glInstance, discardPileCard);
+            if (discardPileCard.isFlipped)
+                discardPileCard.Flip();
+            var discardPileSceneObject = new CardRenderer(this.glInstance, discardPileCard);
 
             discardPileSceneObject.position = this.CalcDiscardOffset(discardPileIndex);
             discardPileSceneObject.rotation = this.CalcDiscardRotation(discardPileIndex);
+            discardPileSceneObject.scale = vec3.fromValues(1.25, 1.25, 1.25);
             this.renderList.push(discardPileSceneObject);
             discardPileIndex++;
         }
@@ -79,12 +87,18 @@ class HandRenderer {
         for (let obj of this.renderList)
         {
             if (obj.MouseClicked)
-                obj.MouseClicked(gameFrontend.game, this);
+                obj.MouseClicked(gameFrontend);
         }
     }
 
     Draw() {
         for (let obj of this.renderList)
             obj.Draw(this.gameFrontend);
+    }
+
+    Destroy(targetObj) {
+        var renderListCopy = [...this.renderList]; // Prevent any render artifacts by copying the array temporarily
+        renderListCopy.splice(this.renderList.indexOf(targetObj), 1);
+        this.renderList = renderListCopy;
     }
 }

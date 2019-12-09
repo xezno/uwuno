@@ -109,7 +109,7 @@ if ("serviceWorker" in navigator) {
     });
 }
 
-let gameFrontend = new GameFrontend(document.querySelector("canvas#game-canvas"));
+let gameFrontend = new GameManager(document.querySelector("canvas#game-canvas"));
 
 let draw = () => {
     gameFrontend.Draw();

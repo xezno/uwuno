@@ -1,1 +1,2 @@
 const DEG_TO_RAD = 0.0174533;
+const CARD_SCALE_MULTIPLIER = [1, 1.4, 1];

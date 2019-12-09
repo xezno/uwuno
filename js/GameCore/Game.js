@@ -48,10 +48,7 @@ class Game {
             //    share a common property (type or color); or
             // b: either of the cards are 'wild' (for now).
             console.log(`${card.cardType} vs ${this.discardPileTop.cardType}`);
-            if (this.discardPileTop.cardType == card.cardType ||
-                this.discardPileTop.cardColor == card.cardColor || 
-                card.cardColor == "wild" ||
-                this.discardPileTop.cardColor == "wild")
+            if (this.CanPlayCard(card))
             {
                 // The card is valid! Play it
                 console.log(`Playing card ${card.toString()} (${i})`);
@@ -76,6 +73,13 @@ class Game {
         this.AdvancePlayerTurn();
     }
 
+    CanPlayCard(card) {
+        return (this.discardPileTop.cardType == card.cardType ||
+            this.discardPileTop.cardColor == card.cardColor || 
+            card.cardColor == "wild" ||
+            this.discardPileTop.cardColor == "wild")
+    }
+
     CheckForWinCondition() {
         for (let player of this.players) {
             if (player.hand.length < 1) {
@@ -84,7 +88,6 @@ class Game {
             }
         }
     }
-
 
     GetCurrentPlayerMove() {
         return this.players[this.playerTurn];

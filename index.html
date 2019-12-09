@@ -2,6 +2,7 @@
 <html>
     <head>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gl-matrix/2.8.1/gl-matrix-min.js" integrity="sha256-+09xst+d1zIS41eAvRDCXOf0MH993E4cS40hKBIJj8Q=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.4.84/Tone.js" integrity="sha256-c5EKSvLhAQnR3IBkuUIaEGKYUyzto+YGOKkLPdtaHNY=" crossorigin="anonymous"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="https://cdn.remixicon.com/releases/v1.3.1/remixicon.css" rel="stylesheet">
         <link rel="stylesheet" href="css/main.css">
@@ -130,7 +131,7 @@
                     </div>
                 </article>
                 <article id="game">
-                    <canvas id="game-canvas" width="1280" height="720"></canvas>
+                    <canvas id="game-canvas" width="1920" height="1080"></canvas>
                 </article>
             </article>
         </main>
@@ -142,14 +143,16 @@
         <script src="js/GameCore/Deck.js"></script>
         <script src="js/GameCore/Game.js"></script>
         <script src="js/GameCore/Player.js"></script>
-
+        
         <script src="js/WebGL/Macros.js"></script>
-        <script src="js/WebGL/HandRenderer.js"></script>
-        <script src="js/WebGL/ObjectRenderer.js"></script>
-        <script src="js/WebGL/SceneObject.js"></script>
-        <script src="js/WebGL/ArrowRenderer.js"></script>
-        <script src="js/WebGL/TextureManager.js"></script>
-        <script src="js/WebGL/GameFrontend.js"></script>
+        <script src="js/WebGL/Sound.js"></script>
+        <script src="js/WebGL/Manager/SoundRenderer.js"></script>
+        <script src="js/WebGL/Manager/HandManager.js"></script>
+        <script src="js/WebGL/Manager/TextureManager.js"></script>
+        <script src="js/WebGL/Manager/GameManager.js"></script>
+        <script src="js/WebGL/Render/SceneObject.js"></script>
+        <script src="js/WebGL/Render/CardRenderer.js"></script>
+        <script src="js/WebGL/Render/ArrowRenderer.js"></script>
         <script src="js/WebGL/Camera.js"></script>
         <script src="js/WebGL/Texture.js"></script>
         <script src="js/WebGL/GlInstance.js"></script>

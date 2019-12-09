@@ -1,6 +1,6 @@
 class Card {
     constructor(cardFlipped, cardType, cardColor) {
-        this.cardFlipped = cardFlipped;
+        this.isFlipped = cardFlipped;
         this.cardColor = cardColor;
         this.cardType = cardType;
         if (cardFlipped) {
@@ -11,16 +11,16 @@ class Card {
     }
 
     Flip() {
-        if (this.cardFlipped) {
+        if (this.isFlipped) {
             this.texture = `${this.cardColor}_${this.cardType}.png`;
         } else {
             this.texture = "card_back.png";
         }
-        this.cardFlipped = !this.cardFlipped;
+        this.isFlipped = !this.isFlipped;
     }
 
     // lowercase cos js is shit
     toString() {
-        return (this.cardFlipped) ? "Unknown (flipped)" : `${this.cardColor} ${this.cardType}`;
+        return (this.isFlipped) ? "Unknown (flipped)" : `${this.cardColor} ${this.cardType}`;
     }
 }
