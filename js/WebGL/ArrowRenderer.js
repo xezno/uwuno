@@ -1,4 +1,4 @@
-class ArrowRenderer extends ObjectRenderer {
+class ArrowRenderer extends SceneObject {
     constructor(glInstance, yPos) {
         super(glInstance);
         this.texture = "/img/arrow-left.png";
