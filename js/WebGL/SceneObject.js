@@ -1,4 +1,4 @@
-class ObjectRenderer {
+class SceneObject {
     constructor(glInstance) {
         this.glInstance = glInstance;
         this.gl = glInstance.gl;
@@ -44,7 +44,7 @@ class ObjectRenderer {
         return (1 - t) * a + t * b;
     }
 
-    LerpPos(a, b, t) {
+    LerpVec3(a, b, t) {
         return [this.Lerp(a[0], b[0], t), 
                 this.Lerp(a[1], b[1], t), 
                 this.Lerp(a[2], b[2], t)];
@@ -56,16 +56,23 @@ class ObjectRenderer {
             if (!this.animation.totalFrames) 
                 this.animation.totalFrames = 0;
 
-            if (this.animation.from && this.animation.to)
-                this.position = this.LerpPos(this.animation.from, this.animation.to, this.animation.totalFrames / this.animation.duration);
+            let t = this.animation.totalFrames / this.animation.duration;
+
+            if (this.animation.fromPos != undefined && this.animation.toPos != undefined)
+                this.position = this.LerpVec3(this.animation.fromPos, this.animation.toPos, t);
+            if (this.animation.fromScale != undefined && this.animation.toScale != undefined)
+                this.scale = this.LerpVec3(this.animation.fromScale, this.animation.toScale, t);
+            if (this.animation.fromRot != undefined && this.animation.toRot != undefined)
+                this.rotation = this.Lerp(this.animation.fromRot, this.animation.toRot, t);
 
             this.animation.totalFrames++;
 
             if (this.animation.totalFrames > this.animation.duration)
             {
+                console.log(this.animation);
                 if (this.animation.onFinish)
                     this.animation.onFinish();
-                this.animation = undefined;
+                this.animation = {};
             }
         }
 
