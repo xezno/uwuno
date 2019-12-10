@@ -53,6 +53,7 @@ class HandManager {
             }
         }
         this.renderList.push(new ArrowRenderer(this.glInstance, this.game.playerTurn - 2));
+        this.renderList.push(new DeckRenderer(this.glInstance));
 
         this.UpdateDiscardPile();
     }

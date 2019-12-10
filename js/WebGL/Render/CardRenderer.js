@@ -63,7 +63,8 @@ class CardRenderer extends SceneObject {
 
     MouseClicked(gameFrontend) {
         if (!this.isInteractive) return;
-
+        
+        let randomCardSound = Math.floor((Math.random() * 3) + 1);
         if (this.isMouseOver && gameFrontend.game.CanPlayCard(this.card))
         {
             if (this.card.isFlipped) this.Flip();
@@ -79,13 +80,11 @@ class CardRenderer extends SceneObject {
                     gameFrontend.game.discardPile.AddToPile(this.card);
                     gameFrontend.handManager.UpdateDiscardPile();
 
-                    SoundManager.Play(`./snd/card_flip_${Math.floor((Math.random() * 3) + 1)}.wav`);
+                    SoundManager.Play(`./snd/card_flip_${randomCardSound}.wav`);
                     
                     gameFrontend.handManager.Destroy(this);
                 }
             });
-            SoundManager.Play("/snd/slide_card.wav");
         }
-        
     }
 }
