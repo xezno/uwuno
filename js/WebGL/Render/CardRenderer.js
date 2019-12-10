@@ -6,8 +6,6 @@ class CardRenderer extends SceneObject {
         this.mousePos = [];
         this.card = card;
         this.isInteractive = isInteractive;
-
-        this.animation = {};
     }
 
     get isMouseOver() {
@@ -18,7 +16,10 @@ class CardRenderer extends SceneObject {
     get modelMatrix() {
         let mMatrix = mat4.create();
         mat4.translate(mMatrix, mMatrix, this.position);
-        mat4.rotate(mMatrix, mMatrix, this.rotation * DEG_TO_RAD, vec3.fromValues(0, 0, 1));
+
+        mat4.rotate(mMatrix, mMatrix, this.rotation[0] * DEG_TO_RAD, vec3.fromValues(1, 0, 0));
+        mat4.rotate(mMatrix, mMatrix, this.rotation[1] * DEG_TO_RAD, vec3.fromValues(0, 1, 0));
+        mat4.rotate(mMatrix, mMatrix, this.rotation[2] * DEG_TO_RAD, vec3.fromValues(0, 0, 1));
         
         let newScale = vec3.create();
         newScale = vec3.multiply(newScale, this.scale, CARD_SCALE_MULTIPLIER);
@@ -42,19 +43,34 @@ class CardRenderer extends SceneObject {
     }
 
     Flip() {
-        this.card.Flip();
-        this.texture = `/img/cards/${this.card.texture}`;
+        this.AddAnimation({
+            fromRot: vec3.fromValues(this.rotation[0], this.rotation[1], this.rotation[2]),
+            toRot: vec3.fromValues(0, 90, 0),
+            duration: 15,
+            onFinish: _ => {
+                this.card.Flip();
+                this.texture = `/img/cards/${this.card.texture}`;
+                this.AddAnimation({
+                    fromRot: vec3.fromValues(this.rotation[0], this.rotation[1], this.rotation[2]),
+                    toRot: vec3.fromValues(0, 0, 0),
+                    duration: 15
+                });
+                console.log(this.animations);
+            }
+        });
     }
 
     MouseClicked(gameFrontend) {
         if (!this.isInteractive) return;
+            
 
         if (this.isMouseOver && gameFrontend.game.CanPlayCard(this.card))
         {
-            this.animation = {
+            if (this.card.isFlipped) this.Flip();
+            this.AddAnimation({
                 fromPos: vec3.fromValues(this.position[0], this.position[1], this.position[2]),
                 toPos: gameFrontend.handRenderer.CalcDiscardOffset(),
-                fromRot: this.rotation,
+                fromRot: vec3.fromValues(this.rotation[0], this.rotation[1], this.rotation[2]),
                 toRot: gameFrontend.handRenderer.CalcDiscardRotation(),
                 duration: 30,
                 fromScale: this.scale,
@@ -67,8 +83,9 @@ class CardRenderer extends SceneObject {
                     
                     gameFrontend.handRenderer.Destroy(this);
                 }
-            };
-            // new Sound("/snd/slide_card.wav").Play();
+            });
+            new Sound("/snd/slide_card.wav").Play();
         }
+        
     }
 }

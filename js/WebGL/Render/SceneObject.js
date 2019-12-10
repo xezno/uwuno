@@ -6,8 +6,10 @@ class SceneObject {
         this.VBO = this.gl.createBuffer();
 
         this.position = vec3.fromValues(0, 0, 0);
-        this.rotation = 0;
+        this.rotation = vec3.fromValues(0, 0, 0);
         this.scale = vec3.fromValues(1, 1, 1);
+
+        this.animations = [];
 
         let vertices = new Float32Array([
             -0.5,   -0.5,   0.0, // 0
@@ -30,9 +32,15 @@ class SceneObject {
     get modelMatrix() {
         let mMatrix = mat4.create();
         mat4.translate(mMatrix, mMatrix, this.position);
-        mat4.rotate(mMatrix, mMatrix, this.rotation * DEG_TO_RAD, vec3.fromValues(0, 0, 1));
+        mat4.rotate(mMatrix, mMatrix, this.rotation[0] * DEG_TO_RAD, vec3.fromValues(1, 0, 0));
+        mat4.rotate(mMatrix, mMatrix, this.rotation[1] * DEG_TO_RAD, vec3.fromValues(0, 1, 0));
+        mat4.rotate(mMatrix, mMatrix, this.rotation[2] * DEG_TO_RAD, vec3.fromValues(0, 0, 1));
         mat4.scale(mMatrix, mMatrix, this.scale);
         return mMatrix;
+    }
+
+    AddAnimation(animation) {
+        this.animations.push(animation);
     }
 
     Curve(t) {
@@ -51,29 +59,54 @@ class SceneObject {
     }
 
     Draw(gameFrontend) {
-        if (this.animation) {
+        let offsetPosition;
+        let offsetScale;
+        let offsetRotation;
+        for (let animation of this.animations) {
             // TODO: create update function so that this isn't framerate-dependent
-            if (!this.animation.totalFrames) 
-                this.animation.totalFrames = 0;
+            if (!animation.totalFrames) 
+                animation.totalFrames = 0;
 
-            let t = this.animation.totalFrames / this.animation.duration;
+            let t = animation.totalFrames / animation.duration;
 
-            if (this.animation.fromPos != undefined && this.animation.toPos != undefined)
-                this.position = this.LerpVec3(this.animation.fromPos, this.animation.toPos, t);
-            if (this.animation.fromScale != undefined && this.animation.toScale != undefined)
-                this.scale = this.LerpVec3(this.animation.fromScale, this.animation.toScale, t);
-            if (this.animation.fromRot != undefined && this.animation.toRot != undefined)
-                this.rotation = this.Lerp(this.animation.fromRot, this.animation.toRot, t);
-
-            this.animation.totalFrames++;
-
-            if (this.animation.totalFrames > this.animation.duration)
+            if (animation.fromPos != undefined && animation.toPos != undefined)
             {
-                if (this.animation.onFinish)
-                    this.animation.onFinish();
-                this.animation = {};
+                if (!offsetPosition)
+                    offsetPosition = vec3.create();
+                vec3.add(offsetPosition, offsetPosition, this.LerpVec3(animation.fromPos, animation.toPos, t));
+            }
+
+            if (animation.fromScale != undefined && animation.toScale != undefined)
+            {
+                if (!offsetScale) 
+                    offsetScale = vec3.fromValues(1, 1, 1);
+                vec3.multiply(offsetScale, offsetScale, this.LerpVec3(animation.fromScale, animation.toScale, t));
+            }
+
+            if (animation.fromRot != undefined && animation.toRot != undefined)
+            {
+                if (!offsetRotation)
+                    offsetRotation = vec3.create();
+                vec3.add(offsetRotation, offsetRotation, this.LerpVec3(animation.fromRot, animation.toRot, t));
+            }
+
+
+            animation.totalFrames++;
+
+            if (animation.totalFrames > animation.duration)
+            {
+                if (animation.onFinish)
+                    animation.onFinish();
+                this.animations.splice(this.animations.indexOf(animation), 1);
             }
         }
+
+        if (offsetPosition)
+            this.position = offsetPosition;
+        if (offsetScale)
+            this.scale = offsetScale;
+        if (offsetRotation)
+            this.rotation = offsetRotation;
 
 
         if (!gameFrontend.mainCardShader.ready) return;

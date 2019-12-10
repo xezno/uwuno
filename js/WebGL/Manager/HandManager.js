@@ -14,7 +14,7 @@ class HandManager {
 
         let noiseOffset = this.CalcDiscardOffset(index);
         let noiseTotal = noiseOffset[0] * noiseOffset[1];
-        return ((index + noiseTotal) * 20) % 360;
+        return [0, 0, ((index + noiseTotal) * 20) % 360];
     }
 
     CalcDiscardOffset(index) {
@@ -47,7 +47,7 @@ class HandManager {
                     var offset = (playerIndex % 3 == 0) ? -8 : 8;
                     cardRenderer.position = vec3.fromValues(offset, playerCardIndex * CARD_SCALE_MULTIPLIER[1] - 4, 0);
                 }
-                cardRenderer.rotation = (playerCardIndex - (this.game.players[playerIndex].hand.length / 2)) * -10;
+                // cardRenderer.rotation = (playerCardIndex - (this.game.players[playerIndex].hand.length / 2)) * -10;
                 this.renderList.push(cardRenderer);
                 playerCardIndex++;
                 totalCardIndex++;
