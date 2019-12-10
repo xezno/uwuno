@@ -6,8 +6,7 @@ class TextureManager {
         }
     }
 
-    GetTexture(textureName)
-    {
+    GetTexture(textureName) {
         var texture = this.textures[textureName];
         if (!texture)
             console.error(`${textureName} wasn't loaded!`);

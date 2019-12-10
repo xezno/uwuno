@@ -20,6 +20,7 @@ class HandManager {
     CalcDiscardOffset(index) {
         if (index == undefined) 
             index = this.game.discardPile.cardList.length;
+        
         let noiseX = Math.sin(index);
         let noiseY = Math.cos(index * 3);
         noiseX = (noiseY * 2) - (noiseX);
@@ -31,7 +32,6 @@ class HandManager {
 
     UpdateCards() {
         this.renderList = [];
-        var totalCardIndex = 0;
         for (var playerIndex in this.game.players)
         {
             var playerCardIndex = 0;
@@ -50,7 +50,6 @@ class HandManager {
                 // cardRenderer.rotation = (playerCardIndex - (this.game.players[playerIndex].hand.length / 2)) * -10;
                 this.renderList.push(cardRenderer);
                 playerCardIndex++;
-                totalCardIndex++;
             }
         }
         this.renderList.push(new ArrowRenderer(this.glInstance, this.game.playerTurn - 2));
@@ -94,6 +93,11 @@ class HandManager {
     Draw() {
         for (let obj of this.renderList)
             obj.Draw(this.gameFrontend);
+    }
+
+    Update(deltaTime) {
+        for (let obj of this.renderList)
+            obj.Update(deltaTime);
     }
 
     Destroy(targetObj) {

@@ -1,4 +1,4 @@
-class GameManager {
+    class GameManager {
     constructor(canvas) {
         // Here, all of the magic happens!
         // A GameCore.Game instance is created, and the appropriate render
@@ -10,9 +10,11 @@ class GameManager {
         this.game = new Game();
         this.glInstance = new GLInstance(canvas);
         this.canvas = canvas;
-        this.handRenderer = new HandManager(this.glInstance, this.game, this);
+        this.handManager = new HandManager(this.glInstance, this.game, this);
         this.mainCardShader = new Shader(this.glInstance, "/shaders/frag.glsl", "/shaders/vert.glsl");
         this.keysPressed = [];
+
+        this.timeSinceLastUpdate = Date.now();
 
         this.RegisterEventHandlers();
         this.LoadTextures();
@@ -35,18 +37,19 @@ class GameManager {
             // There was probably an easier way to do this (thru matrices) but I don't care
             let position = [posX / this.canvas.offsetWidth, posY / this.canvas.offsetHeight];
             position[0] *= this.camera.posLeft * this.camera.ratio * 2;
-            position[1] *= this.camera.posTop * 2;
             position[0] -= this.camera.posLeft * this.camera.ratio;
-            position[1] -= this.camera.posTop;
             position[0] = position[0];
+
+            position[1] *= this.camera.posTop * 2;
+            position[1] -= this.camera.posTop;
             position[1] = -position[1];
             this.mousePosWorld = position;
 
-            this.handRenderer.MouseMoved(position);
+            this.handManager.MouseMoved(position);
         });
 
         this.canvas.addEventListener("mousedown", (e) => {
-            this.handRenderer.MouseClicked(this);
+            this.handManager.MouseClicked(this);
         });
     }
 
@@ -70,13 +73,15 @@ class GameManager {
 
     Run() {
         this.game.Run();
-        this.handRenderer.UpdateCards();
+        this.handManager.UpdateCards();
     }
 
     Draw() {
         this.camera.Update(this.keysPressed);
         this.glInstance.BeginDraw();
-        this.handRenderer.Draw();
+        this.handManager.Update(Date.now() - this.timeSinceLastUpdate);
+        this.timeSinceLastUpdate = Date.now();
+        this.handManager.Draw();
         this.glInstance.EndDraw();
     }
 }

@@ -58,16 +58,15 @@ class SceneObject {
                 this.Lerp(a[2], b[2], t)];
     }
 
-    Draw(gameFrontend) {
+    Update(deltaTime) {
         let offsetPosition;
         let offsetScale;
         let offsetRotation;
         for (let animation of this.animations) {
-            // TODO: create update function so that this isn't framerate-dependent
-            if (!animation.totalFrames) 
-                animation.totalFrames = 0;
+            if (!animation.totalTime) 
+                animation.totalTime = 0;
 
-            let t = animation.totalFrames / animation.duration;
+            let t = animation.totalTime / animation.duration;
 
             if (animation.fromPos != undefined && animation.toPos != undefined)
             {
@@ -90,10 +89,9 @@ class SceneObject {
                 vec3.add(offsetRotation, offsetRotation, this.LerpVec3(animation.fromRot, animation.toRot, t));
             }
 
+            animation.totalTime += deltaTime;
 
-            animation.totalFrames++;
-
-            if (animation.totalFrames > animation.duration)
+            if (animation.totalTime > animation.duration)
             {
                 if (animation.onFinish)
                     animation.onFinish();
@@ -107,8 +105,9 @@ class SceneObject {
             this.scale = offsetScale;
         if (offsetRotation)
             this.rotation = offsetRotation;
+    }
 
-
+    Draw(gameFrontend) {
         if (!gameFrontend.mainCardShader.ready) return;
         this.gl.useProgram(gameFrontend.mainCardShader.shaderProgram);
 
