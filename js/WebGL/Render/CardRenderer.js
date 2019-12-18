@@ -78,9 +78,11 @@ class CardRenderer extends SceneObject {
                 toScale: vec3.fromValues(1.25, 1.25, 1.25),
                 onFinish: _ => {
                     gameFrontend.game.discardPile.AddToPile(this.card);
+                    gameFrontend.game.players[0].PlayCard(gameFrontend.game.players[0].hand.indexOf(this.card));
+                    gameFrontend.handManager.UpdateCards();
                     gameFrontend.handManager.UpdateDiscardPile();
 
-                    SoundManager.Play(`./snd/card_flip_${randomCardSound}.wav`);
+                    gameFrontend.soundManager.Play(`/snd/card_flip_${randomCardSound}.wav`);
                     
                     gameFrontend.handManager.Destroy(this);
                 }

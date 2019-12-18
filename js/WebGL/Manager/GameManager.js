@@ -1,4 +1,4 @@
-    class GameManager {
+class GameManager {
     constructor(canvas) {
         // Here, all of the magic happens!
         // A GameCore.Game instance is created, and the appropriate render
@@ -18,6 +18,7 @@
 
         this.RegisterEventHandlers();
         this.LoadTextures();
+        this.LoadSounds();
         this.Run();
     }
 
@@ -31,27 +32,35 @@
         });
 
         this.canvas.addEventListener("mousemove", (e) => {
-            let posX = e.x - this.canvas.offsetLeft;
-            let posY = e.y - this.canvas.offsetTop;
-
-            // There was probably an easier way to do this (thru matrices) but I don't care
-            let position = [posX / this.canvas.offsetWidth, posY / this.canvas.offsetHeight];
-            position[0] *= this.camera.posLeft * this.camera.ratio * 2;
-            position[0] -= this.camera.posLeft * this.camera.ratio;
-            position[0] = position[0];
-
-            position[1] *= this.camera.posTop * 2;
-            position[1] -= this.camera.posTop;
-            position[1] = -position[1];
-            this.mousePosWorld = position;
-
-            this.handManager.MouseMoved(position);
+            this.SetMousePos(e.x, e.y);
+            this.handManager.MouseMoved(this.mousePosWorld);
         });
 
         this.canvas.addEventListener("mousedown", (e) => {
+            this.SetMousePos(e.x, e.y);
+            this.handManager.MouseMoved(this.mousePosWorld); // Handle any missed mousemove events
+
             this.handManager.MouseClicked(this);
         });
     }
+
+    SetMousePos(x, y)
+    {
+        let posX = x - this.canvas.offsetLeft;
+        let posY = y - this.canvas.offsetTop;
+
+        // There was probably an easier way to do this (thru matrices) but I don't care
+        let position = [posX / this.canvas.offsetWidth, posY / this.canvas.offsetHeight];
+        position[0] *= this.camera.posLeft * this.camera.ratio * 2;
+        position[0] -= this.camera.posLeft * this.camera.ratio;
+        position[0] = position[0];
+
+        position[1] *= this.camera.posTop * 2;
+        position[1] -= this.camera.posTop;
+        position[1] = -position[1];
+        this.mousePosWorld = position;
+    }
+
 
     LoadTextures() {
         // Compile a list of textures to load
@@ -69,6 +78,19 @@
 
         // Load the textures
         this.textureManager = new TextureManager(this.glInstance, texturesToLoad);
+    }
+
+    LoadSounds() {
+        // Same as above; this time, for audio/sounds.
+        let soundsToLoad = [
+            "/snd/card_flip_1.wav",
+            "/snd/card_flip_2.wav",
+            "/snd/card_flip_3.wav",
+            "/snd/slide_card.wav"
+        ];
+
+        // Load the sounds
+        this.soundManager = new SoundManager(soundsToLoad);
     }
 
     Run() {

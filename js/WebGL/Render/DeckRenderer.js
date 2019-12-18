@@ -3,7 +3,7 @@ class DeckRenderer extends CardRenderer {
         super(glInstance, new Card(true, "0", "blue"), true);
         this.texture = `/img/cards/card_back.png`;
 
-        this.position = vec3.fromValues(0, 0, -4.5);
+        this.position = vec3.fromValues(6, 4, -4.5);
         this.scale = vec3.fromValues(1.5, 1.5, 1.5);
     }
 
@@ -40,8 +40,7 @@ class DeckRenderer extends CardRenderer {
                 onFinish: _ => {
                     gameFrontend.game.players[0].AddToHand(this.tempCard.card);
                     gameFrontend.handManager.UpdateCards();
-                    SoundManager.Play(`./snd/card_flip_${randomCardSound}.wav`);
-                    gameFrontend.handManager.Destroy(this.tempCard);
+                    gameFrontend.soundManager.Play(`/snd/card_flip_${randomCardSound}.wav`);
                 }
             });
         }
