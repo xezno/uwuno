@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gl-matrix/2.8.1/gl-matrix-min.js" integrity="sha256-+09xst+d1zIS41eAvRDCXOf0MH993E4cS40hKBIJj8Q=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.4.84/Tone.js" integrity="sha256-c5EKSvLhAQnR3IBkuUIaEGKYUyzto+YGOKkLPdtaHNY=" crossorigin="anonymous"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.remixicon.com/releases/v1.3.1/remixicon.css" rel="stylesheet">
+        <link rel="stylesheet" href="css/main.css">
+        <link rel="manifest" href="manifest.json">
+        <title>uwuno</title>
+    </head>
+    <body>
+        <div id="splash-screen">
+            <span class="logo" href="/" style="opacity: 0;"></span>
+        </div>
+        <nav id="navbar-top">
+            <div id="navbar-content">
+                <div id="navbar-left">
+                    <a class="logo" href="/"></a>
+                </div>
+                <div id="navbar-right">
+                    <a href="#" id="options-button"><i class="remixicon-settings-3-fill"></i></a>
+                </div>
+            </div>
+        </nav>
+        <main>
+            <article id="notification-center"></article>
+            <article id="menu">
+                <article id="menu-game-publicity">
+                    <div id="flex-wrapper">
+                        <h1>who do you want to play against?</h1>
+                        <article class="half-width left game-selector" id="public-game-selector">
+                            <span class="half-width-inner left">
+                                <i class="remixicon-earth-fill"></i>
+                                <h1>anyone</h1>
+                            </span>
+                            <span class="half-width-inner right">
+                                <h2>join a public game with people u dont know thru our matchmaking servers</h2>
+                            </span>
+                        </article>
+                        <article class="half-width right game-selector" id="private-game-selector">
+                            <span class="half-width-inner left">
+                                <i class="remixicon-key-fill"></i>
+                                <h1>my mates</h1>
+                            </span>
+                            <span class="half-width-inner right">
+                                <h2>join or host a private game with people u do know thru the use of a code</h2>
+                            </span>
+                        </article>
+                    </div>
+                </article>
+                <article id="menu-matchmaking-public">
+                    <div id="flex-wrapper">
+                        <h1>searching for a game, hold up...</h1>
+                    </div>
+                </article>
+                <article id="menu-matchmaking-private">
+                    <div id="flex-wrapper">
+                        <h1>are you hosting?</h1>
+                        <article class="half-width left game-selector" id="private-game-host">
+                            <span class="half-width-inner left">
+                                <i class="remixicon-vip-crown-fill"></i>
+                                <h1>im the host</h1>
+                            </span>
+                            <span class="half-width-inner right">
+                                <h2>host a private game with people u know by sharing a key</h2>
+                            </span>
+                        </article>
+                        <article class="half-width right game-selector" id="private-game-join">
+                            <span class="half-width-inner left">
+                                <i class="remixicon-key-fill"></i>
+                                <h1>i have a key</h1>
+                            </span>
+                            <span class="half-width-inner right">
+                                <h2>join a private game with people u know by entering a key</h2>
+                            </span>
+                        </article>
+                    </div>
+                </article>
+                <article id="menu-party-enter-key">
+                    <div id="flex-wrapper">
+                        <article class="half-width player-list-container" id="private-player-list">
+                            <span class="half-width-inner left">
+                                <i class="remixicon-key-fill"></i>
+                                <h1>enter your key</h1>
+                            </span>
+                            <span class="half-width-inner right">
+                                <input type="textbox" id="party-join-code">
+                                <a class="button" id="party-join-button">join</a>
+                            </span>
+                        </article>
+                    </div>
+                </article>
+                <article id="menu-party">
+                    <div id="flex-wrapper">
+                        <article class="half-width player-list-container" id="private-player-list">
+                            <span class="half-width-inner left">
+                                <i class="remixicon-key-fill"></i>
+                                <h1>play with your mates</h1>
+                            </span>
+                            <h2>waiting for players... (4 / 4)</h2>
+                            <ul class="player-list">
+                                <li><i class="remixicon-vip-crown-fill"></i> xezno</li>
+                                <li>xezno 2 electric boogaloo</li>
+                                <li>its_notxezno</li>
+                                <li>lets race bwoi</li>
+                            </ul>
+                            <h2>
+                                share this link with people what who that u want to play with:<br>
+                                <code class="party-code" id="party-code">8FN322</code>
+                                you are the host.<br>
+                                <a class="button" id="start-game-button">start game</a>
+                            </h2>
+                        </article>
+                    </div>
+                </article>
+                <article id="menu-options">
+                    <div id="flex-wrapper">
+                        <article class="half-width" id="options-container">
+                            <span class="half-width-inner left">
+                                <i class="remixicon-settings-3-fill"></i>
+                                <h1>options</h1>
+                            </span>
+                            <ul id="option-list">
+                                <li><p>dark mode</p> <input type="checkbox"></li>
+                                <li><p>streamer mode</p> <input type="checkbox"></li>
+                                <li><p>username</p> <input type="textbox" placeholder="TheLegend27"></li>
+                                <li><p>notifications</p> <input type="checkbox"></li>
+                            </ul>
+                        </article>
+                    </div>
+                </article>
+                <article id="game">
+                    <canvas id="game-canvas" width="1920" height="1080"></canvas>
+                </article>
+            </article>
+        </main>
+        <script src="js/NotificationHandler.js"></script>
+        <script src="js/Options.js"></script>
+
+        <script src="js/GameCore/DiscardPile.js"></script>
+        <script src="js/GameCore/Card.js"></script>
+        <script src="js/GameCore/Deck.js"></script>
+        <script src="js/GameCore/Game.js"></script>
+        <script src="js/GameCore/Player.js"></script>
+        
+        <script src="js/WebGL/Macros.js"></script>
+        <script src="js/WebGL/Manager/SoundManager.js"></script>
+        <script src="js/WebGL/Manager/HandManager.js"></script>
+        <script src="js/WebGL/Manager/TextureManager.js"></script>
+        <script src="js/WebGL/Manager/GameManager.js"></script>
+        <script src="js/WebGL/Render/SceneObject.js"></script>
+        <script src="js/WebGL/Render/CardRenderer.js"></script>
+        <script src="js/WebGL/Render/ArrowRenderer.js"></script>
+        <script src="js/WebGL/Render/DeckRenderer.js"></script>
+        <script src="js/WebGL/Camera.js"></script>
+        <script src="js/WebGL/Texture.js"></script>
+        <script src="js/WebGL/GLInstance.js"></script>
+        <script src="js/WebGL/Shader.js"></script>
+
+        <script src="js/Main.js"></script>
+        <script src="js/EventListeners.js"></script>
+    </body>
+</html>
