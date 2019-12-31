@@ -18,5 +18,7 @@ class RTCHostHandler {
         this.rtcChannel = this.rtcConnection.createDataChannel("data-channel");
 
         this.rtcConnection.addEventListener("connectionstatechange");
+
+        // TODO
     }
 }

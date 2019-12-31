@@ -21,6 +21,6 @@ class Card {
 
     // lowercase cos js is shit
     toString() {
-        return (this.isFlipped) ? "Unknown (flipped)" : `${this.cardColor} ${this.cardType}`;
+        return `${this.cardColor} ${this.cardType}` + ((this.isFlipped) ? " (flipped)" : "");
     }
 }

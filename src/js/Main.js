@@ -43,11 +43,9 @@ function switchMenuScreen(targetScreenName) {
     }, transitionSpeed);
 }
 
+// A simple function that just makes copying to the clipboard much easier.
+// Notifies the user that the text has been copied afterwards.
 function copyToClipboard(text) {
-    // A simple function that just makes copying to the
-    // clipboard much easier.
-    // Notifies the user that the text has been copied
-    // afterwards.
     navigator.clipboard.writeText(text).then(() => {
         notificationHandler.PushNotification(`Copied`, `Copied ${text} to clipboard!`, "clipboard");
     }).catch((error) => {

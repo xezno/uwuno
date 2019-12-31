@@ -76,8 +76,8 @@ class Game {
     CanPlayCard(card) {
         return (this.discardPileTop.cardType == card.cardType ||
             this.discardPileTop.cardColor == card.cardColor || 
-            card.cardColor == "wild" ||
-            this.discardPileTop.cardColor == "wild")
+            this.discardPileTop.cardColor == "wild" ||
+            card.cardColor == "wild")
     }
 
     CheckForWinCondition() {
