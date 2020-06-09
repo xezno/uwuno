@@ -18,6 +18,7 @@ class Options {
             "darkMode": true,
             "streamerMode": true,
             "username": "Player" + Math.floor(Math.random() * 999), // Random username
+            // TODO: communicate with the server to ensure that the username isn't taken (there's a 1 in 999 chance that it is!)
             "notifications": true
         }
     }

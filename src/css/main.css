@@ -135,7 +135,7 @@ main {
     height: 100%;
 }
 
-#flex-wrapper {
+.flex-wrapper {
     width: 100%;
     max-width: 960px;
     display: flex;
