@@ -45,4 +45,15 @@ class DeckRenderer extends CardRenderer {
             });
         }
     }
+
+    Render(gameFrontend) {
+        // TODO: Check if player has no remaining playable cards, then show glow
+        if (false)
+        {
+            this.gl.disable(this.gl.DEPTH_TEST);
+            this.glow.Render(gameFrontend);
+            this.gl.enable(this.gl.DEPTH_TEST);
+        }
+        super.Render(gameFrontend);
+    }
 }

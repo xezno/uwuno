@@ -6,37 +6,37 @@ let eventListeners = [
     {
         "name": "party-code",
         "event": "click",
-        "handler": () => copyToClipboard("8FN322")
+        "handler": _ => copyToClipboard("8FN322")
     },
     {
         "name": "private-game-selector",
         "event": "click",
-        "handler": () => switchMenuScreen("menu-matchmaking-private")
+        "handler": _ => switchMenuScreen("menu-matchmaking-private")
     },
     {
         "name": "public-game-selector",
         "event": "click",
-        "handler": () => switchMenuScreen("menu-matchmaking-public")
+        "handler": _ => switchMenuScreen("menu-matchmaking-public")
     },
     {
         "name": "options-button",
         "event": "click",
-        "handler": () => switchMenuScreen("menu-options")
+        "handler": _ => switchMenuScreen("menu-options")
     },
     {
         "name": "private-game-join",
         "event": "click",
-        "handler": () => switchMenuScreen("menu-party-enter-key")
+        "handler": _ => switchMenuScreen("menu-party-enter-key")
     },
     {
         "name": "private-game-host",
         "event": "click",
-        "handler": () => switchMenuScreen("menu-party")
+        "handler": _ => switchMenuScreen("menu-party")
     },
     {
         "name": "start-game-button",
         "event": "click",
-        "handler": () => switchMenuScreen("game")
+        "handler": _ => switchMenuScreen("game")
     },
     {
         "name": "party-join-button",
@@ -44,8 +44,22 @@ let eventListeners = [
         "handler": _ => { 
             notificationHandler.PushNotification("Joining", "Joining party, please wait...", "key");
             switchMenuScreen("menu-party");
+            // TODO: Connect to party
             notificationHandler.PushNotification("Joined!", "Joined party successfully.", "key");
         }
+    },
+    {
+        "name": "save-options-button",
+        "event": "click",
+        "handler": _ => { 
+            // TODO: Store settings in localstorage
+            notificationHandler.PushNotification("Saved", "Your option changes have been saved.", "settings-3");
+        }
+    },
+    {
+        "name": "go-back",
+        "event": "click",
+        "handler": () => goBackMenuScreen()
     }
 ];
 

@@ -9,6 +9,8 @@ class SceneObject {
         this.rotation = vec3.fromValues(0, 0, 0);
         this.scale = vec3.fromValues(1, 1, 1);
 
+        this.tint = vec4.fromValues(1, 1, 1, 1);
+
         this.animations = [];
 
         let vertices = new Float32Array([
@@ -107,20 +109,26 @@ class SceneObject {
             this.rotation = offsetRotation;
     }
 
-    Draw(gameFrontend) {
-        if (!gameFrontend.mainCardShader.ready) return;
-        this.gl.useProgram(gameFrontend.mainCardShader.shaderProgram);
+    Render(gameFrontend) {
+        if (!gameFrontend.mainCardShader.ready) 
+            return;
 
+        this.gl.useProgram(gameFrontend.mainCardShader.shaderProgram);
         gameFrontend.textureManager.GetTexture(this.texture).Bind();
 
         // Apply matrices
         gameFrontend.mainCardShader.SetMat4Variable("viewMatrix", gameFrontend.camera.viewMatrix);
         gameFrontend.mainCardShader.SetMat4Variable("projMatrix", gameFrontend.camera.projMatrix);
         gameFrontend.mainCardShader.SetMat4Variable("modelMatrix", this.modelMatrix);
+        gameFrontend.mainCardShader.SetVec4Variable("tint", this.tint);
         gameFrontend.mainCardShader.SetIntVariable("mainTexture", 0);
 
         // Draw!
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.VBO);
         this.gl.drawArrays(this.gl.TRIANGLES, 0, 6);
+
+        // Unbind everything used
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, null);
+        this.gl.bindTexture(this.gl.TEXTURE_2D, null);
     }
 }

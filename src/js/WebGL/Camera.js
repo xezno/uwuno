@@ -2,7 +2,6 @@ class Camera {
     constructor() {
         this.projMatrix = mat4.create();
 
-        // this.position = vec3.fromValues(2.5, 2, -4);
         this.position = vec3.fromValues(0, 0, -5);
         this.up = vec3.fromValues(0, 1, 0);
         this.forward = vec3.fromValues(0, 0, 1);
@@ -12,9 +11,7 @@ class Camera {
         this.posLeft = -5.0;
         this.posRight = 5.0;
 
-        this.ratio = 1280/720;
-
-        // mat4.perspective(this.projMatrix, 90.0 * DEG_TO_RAD, 1280/720, 0.001, 50.0);
+        this.ratio = 1280/720; // TODO: Get canvas width/height
 
         mat4.ortho(this.projMatrix, -5.0 * this.ratio, 5.0 * this.ratio, -5.0, 5.0, 0.001, 10.0);
     }

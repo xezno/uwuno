@@ -27,7 +27,7 @@ class Shader {
                 {
                     resolve(`Shader compiled successfully`);
                 }
-                this.glInstance.checkGLErrors();
+                // TODO: this.glInstance.checkGLErrors();
             })).catch((err) => {
                 reject(`Couldn't attach shader: ${err}`);
             });
@@ -40,5 +40,9 @@ class Shader {
 
     SetIntVariable(variableName, variableValue) {
         this.gl.uniform1i(this.gl.getUniformLocation(this.shaderProgram, variableName), variableValue);
+    }
+
+    SetVec4Variable(variableName, variableValue) {
+        this.gl.uniform4f(this.gl.getUniformLocation(this.shaderProgram, variableName), variableValue[0], variableValue[1], variableValue[2], variableValue[3]);
     }
 }

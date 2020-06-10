@@ -16,6 +16,7 @@
         <nav id="navbar-top">
             <div id="navbar-content">
                 <div id="navbar-left">
+                    <i class="ri-arrow-left-fill" id="go-back"></i>
                     <a class="logo" href="/"></a>
                 </div>
                 <div id="navbar-right">
@@ -122,43 +123,57 @@
                                 <h1>options</h1>
                             </span>
                             <ul id="option-list">
-                                <li><p>dark mode</p> <input type="checkbox"></li>
-                                <li><p>streamer mode</p> <input type="checkbox"></li>
-                                <li><p>username</p> <input type="textbox" placeholder="TheLegend27"></li>
-                                <li><p>notifications</p> <input type="checkbox"></li>
+                                <li><p>dark mode</p> <input type="checkbox" id="dark-mode-enabled"></li>
+                                <li><p>streamer mode</p> <input type="checkbox" id="streamer-mode-enabled"></li>
+                                <li><p>username</p> <input type="textbox" placeholder="TheLegend27" id="player-username"></li>
+                                <li><p>notifications (coming soon)</p> <input disabled type="checkbox" id="notifications-enabled"></li>
                             </ul>
+                            <a class="button" id="save-options-button">save</a>
                         </article>
                     </div>
                 </article>
                 <article id="game">
-                    <canvas id="game-canvas" width="1920" height="1080"></canvas>
+                    <canvas id="game-canvas" width="1280" height="720"></canvas>
                 </article>
             </article>
         </main>
+
+        <!-- Misc -->
         <script src="js/NotificationHandler.js"></script>
         <script src="js/Options.js"></script>
+        <!-- /Misc -->
 
+        <!-- GameCore -->
         <script src="js/GameCore/DiscardPile.js"></script>
         <script src="js/GameCore/Card.js"></script>
         <script src="js/GameCore/Deck.js"></script>
         <script src="js/GameCore/Game.js"></script>
         <script src="js/GameCore/Player.js"></script>
+        <!-- /GameCore -->
         
+        <!-- WebGL -->
         <script src="js/WebGL/Macros.js"></script>
+
         <script src="js/WebGL/Manager/SoundManager.js"></script>
         <script src="js/WebGL/Manager/HandManager.js"></script>
         <script src="js/WebGL/Manager/TextureManager.js"></script>
         <script src="js/WebGL/Manager/GameManager.js"></script>
+
         <script src="js/WebGL/Render/SceneObject.js"></script>
+        <script src="js/WebGL/Render/GlowRenderer.js"></script>
         <script src="js/WebGL/Render/CardRenderer.js"></script>
         <script src="js/WebGL/Render/ArrowRenderer.js"></script>
         <script src="js/WebGL/Render/DeckRenderer.js"></script>
+
         <script src="js/WebGL/Camera.js"></script>
         <script src="js/WebGL/Texture.js"></script>
         <script src="js/WebGL/GLInstance.js"></script>
         <script src="js/WebGL/Shader.js"></script>
+        <!-- /WebGL -->
 
+        <!-- Misc -->
         <script src="js/Main.js"></script>
         <script src="js/EventListeners.js"></script>
+        <!-- /Misc -->
     </body>
 </html>

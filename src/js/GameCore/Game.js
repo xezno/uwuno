@@ -7,7 +7,7 @@ class Game {
         this.gameRunning = true;
         for (let i = 0; i < 4; ++i)
         {
-            let tempPlayer = new Player(`xezno ${i}`);
+            let tempPlayer = new Player(`Player ${i}`);
             for (let o = 0; o < 7; ++o)
             {
                 tempPlayer.AddToHand(this.deck.DrawCard());

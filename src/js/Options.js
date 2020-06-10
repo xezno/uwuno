@@ -12,6 +12,15 @@ class Options {
         }
     }
 
+    get optionPairs() {
+        return {
+            "darkMode": document.getElementById("dark-mode-enabled").value,
+            "streamerMode": document.getElementById("streamer-mode-enabled").value,
+            "username": document.getElementById("player-username").value,
+            "notifications": document.getElementById("notifications-enabled").value,
+        }
+    }
+
     get defaultValues() {
         // Return the default values for all options.
         return {

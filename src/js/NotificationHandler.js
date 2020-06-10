@@ -1,10 +1,8 @@
 class NotificationHandler {
     constructor() {
         this.notificationCenter = document.getElementById("notification-center");
-        this.notificationsAlive = 0;
         this.notificationCount = 0;
         this.notificationStack = [];
-        this.maxNotificationsAlive = 300; // TODO: Change this based on layout
         if (!this.notificationCenter) console.error(`Notification center wasn't found: notification.js cannot continue`);
     }
 
@@ -18,11 +16,6 @@ class NotificationHandler {
             
             if (!notification.parentNode)
                 return reject("Notification didn't have a parent node.");
-
-            // Decrease the notification alive count so that we can
-            // more easily keep track of the notification count
-            // (i.e. limit notifications on-screen)
-            this.notificationsAlive--;
     
             // Animated: slide out to the right while fading out simultaneously
             notification.style.transform = "translateX(500px)";
@@ -41,7 +34,7 @@ class NotificationHandler {
         if (!icon) icon = "error-warning-fill"
         this.notificationCenter.innerHTML += `
             <article class="notification" onclick="notificationHandler.PurgeNotification('${notificationID}')" style="opacity: 0;" id="notification-${notificationID}">
-                <h1><i class="remixicon-${icon}-fill"></i> ${title}</h1>
+                <h1><i class="ri-${icon}-fill"></i> ${title}</h1>
                 <h2>${text}</h2>
             </article>
         `; // this is terrible and i'm screaming
@@ -62,6 +55,5 @@ class NotificationHandler {
         }, 5000));
 
         this.notificationCount++;
-        this.notificationsAlive++;
     }
 }

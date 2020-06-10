@@ -44,8 +44,7 @@ class GameManager {
         });
     }
 
-    SetMousePos(x, y)
-    {
+    SetMousePos(x, y) {
         let posX = x - this.canvas.offsetLeft;
         let posY = y - this.canvas.offsetTop;
 
@@ -66,7 +65,8 @@ class GameManager {
         // Compile a list of textures to load
         let texturesToLoad = [
             "/img/arrow-left.png",
-            "/img/cards/card_back.png"
+            "/img/cards/card_back.png",
+            "/img/glow.png"
         ];
 
         // We want every card in the deck to have its texture loaded before it's

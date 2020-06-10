@@ -1,20 +1,27 @@
 let notificationHandler,
     options,
-    glInstance;
+    glInstance,
+    screenHistory = [];
 
-function switchMenuScreen(targetScreenName) {
+function switchMenuScreen(targetScreenName, includeInHistory = true) {
     // This function fades the screen out to black over 150ms and then changes the currently active screen (DOM-based) 
     // thru the use of some css and js magic. Essentially, all screens are set to have their display
     // properties to "none", however this function will reset all displays to "none" once more and instead
     // set the target div's (from variable 'screenName') display value to "block".
     // The screen then fades back from black over 150ms.
-
-    // Ensure this matches menu element's transition speed!
-    const transitionSpeed = 500;
-
-    // Get the menu variable
     let menu = document.getElementById("menu");
-    // Fade the screen out
+    
+    // First, find the target screen
+    let targetScreen = document.getElementById(targetScreenName);
+    if (!targetScreen) // Check that the screen is valid before doing anything
+    {
+        return console.error(`${targetScreenName} is not a valid screen!`);
+    }
+
+    // The screen exists!
+    const transitionSpeed = 500; // Ensure this matches menu element's transition speed
+
+    // Fade out
     menu.style.opacity = "0";
 
     // Wait until the screen has faded out (via transition)
@@ -29,11 +36,10 @@ function switchMenuScreen(targetScreenName) {
                 element.style.display = "none";
         }
     
-        // Find the target screen
-        let targetScreen = document.getElementById(targetScreenName);
-        if (!targetScreen) // Check that the screen is valid before fading in
-            return console.error(`${targetScreenName} is not a valid screen!`);
-    
+        // Add the screen to screenHistory so that we can go backwards/forwards to it later if needed
+        if (includeInHistory)
+            screenHistory.push(targetScreenName);
+
         // Set the screen's display value to nothing (in other
         // words, set it based on the CSS value)
         targetScreen.style.display = "";
@@ -41,6 +47,11 @@ function switchMenuScreen(targetScreenName) {
         // Fade the screen back in
         menu.style.opacity = "1";
     }, transitionSpeed);
+}
+
+function goBackMenuScreen()
+{
+    switchMenuScreen(screenHistory.pop(), false);
 }
 
 // A simple function that just makes copying to the clipboard much easier.

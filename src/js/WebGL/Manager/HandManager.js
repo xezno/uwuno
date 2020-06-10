@@ -32,6 +32,7 @@ class HandManager {
 
     UpdateCards() {
         this.renderList = [];
+
         for (var playerIndex in this.game.players)
         {
             var playerCardIndex = 0;
@@ -52,6 +53,7 @@ class HandManager {
                 playerCardIndex++;
             }
         }
+
         this.renderList.push(new ArrowRenderer(this.glInstance, this.game.playerTurn - 2));
         this.renderList.push(new DeckRenderer(this.glInstance));
 
@@ -93,7 +95,7 @@ class HandManager {
 
     Draw() {
         for (let obj of this.renderList)
-            obj.Draw(this.gameFrontend);
+            obj.Render(this.gameFrontend);
     }
 
     Update(deltaTime) {

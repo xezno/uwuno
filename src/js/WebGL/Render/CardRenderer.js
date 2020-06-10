@@ -6,6 +6,9 @@ class CardRenderer extends SceneObject {
         this.mousePos = [];
         this.card = card;
         this.isInteractive = isInteractive;
+
+        this.glow = new GlowRenderer(glInstance, this);
+        this.glow.visible = true;
     }
 
     get isMouseOver() {
@@ -15,7 +18,7 @@ class CardRenderer extends SceneObject {
     }
 
     get modelMatrix() {
-        // Overriden so that we can multiply this.scale by the card scale multiplier
+        // Overridden so that we can multiply this.scale by the card scale multiplier
         let mMatrix = mat4.create();
         mat4.translate(mMatrix, mMatrix, this.position);
 
@@ -85,8 +88,21 @@ class CardRenderer extends SceneObject {
                     gameFrontend.soundManager.Play(`/snd/card_flip_${randomCardSound}.wav`);
                     
                     gameFrontend.handManager.Destroy(this);
+                    
+                    // gameFrontend.Run();
                 }
             });
         }
+    }
+
+    Render(gameFrontend) {
+        // Draw glow + card
+        if (gameFrontend.game.CanPlayCard(this.card) && this.isInteractive)
+        {
+            this.gl.disable(this.gl.DEPTH_TEST);
+            this.glow.Render(gameFrontend);
+            this.gl.enable(this.gl.DEPTH_TEST);
+        }
+        super.Render(gameFrontend);
     }
 }
